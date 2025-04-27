@@ -15,15 +15,28 @@ import java.util.*;
 
 public class RectangleGraph {
     public static void main(String[] args) {
-        int k =20;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Koľko vnútorných vrcholov chcete? (k): ");
+        int k = scanner.nextInt();
+
+        System.out.print("Koľko rôznych grafov chcete vygenerovať? (konštanta): ");
+        int konstanta = scanner.nextInt();
+        System.out.print("Ako chcete nazvať súbor kde uložíme grafy? : ");
+        String nazovSuboru = scanner.next();
+        generateGraphs(k, konstanta, nazovSuboru);
+
+        scanner.close();
+    }
+    public static void generateGraphs(int k,int konstanta, String nazovSuboru){
         int x = k+1;
         int y = k+1;
 
         Set<Graph> mnozina = new HashSet<>();
-        int konstanta = 10000;
+
         int generovania=0;
         boolean prvy =true;
-        while(mnozina.size()<=konstanta){
+        while(mnozina.size()<konstanta){
             // Vytvorenie grafu
             Graph<String, DefaultEdge> graph = new DefaultUndirectedGraph<>(SupplierUtil.createStringSupplier(), SupplierUtil.createDefaultEdgeSupplier(), false);
             createCornerVertices(graph,x,y);
@@ -44,8 +57,8 @@ public class RectangleGraph {
             if(prvy){
                 prvy=false;
                 mnozina.add(graph);
-                System.out.println("Vrcholov grafu: " + graph.vertexSet());
-                System.out.println("Hrany grafu: " + graph.edgeSet());
+                System.out.print("\rPočet grafov v množine: " + mnozina.size());
+                System.out.flush();
             }
             boolean izomorfny=false;
             for(Graph g:mnozina){
@@ -57,27 +70,26 @@ public class RectangleGraph {
             }
             generovania++;
             if(!izomorfny){
-                generovania=0;
                 mnozina.add(graph);
-                System.out.println("Vrcholov grafu: " + graph.vertexSet());
-                System.out.println("Hrany grafu: " + graph.edgeSet());
+                generovania=0;
+                System.out.print("\rPočet grafov v množine: " + mnozina.size());
+                System.out.flush();
+
             }
         }
-        try (FileWriter fileWriter = new FileWriter("graph6_output.txt")) {
+        try (FileWriter fileWriter = new FileWriter(nazovSuboru + ".txt")) {
             for (Graph<String, DefaultEdge> g : mnozina) {
                 Graph6Sparse6Exporter<String, DefaultEdge> exporter = new Graph6Sparse6Exporter<>();
                 StringWriter writer = new StringWriter();
                 exporter.exportGraph(g, writer);
                 String graph6String = writer.toString();
-                System.out.println(graph6String);
                 fileWriter.write(graph6String + System.lineSeparator());
             }
-            System.out.println("Graph6 výstup bol zapísaný do graph6_output.txt");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     private static void createCornerVertices(Graph<String, DefaultEdge> graph, int x, int y) {
         String bottomLeft = "(0,0)";
         String bottomRight = "(" + x + ",0)";
@@ -308,3 +320,8 @@ public class RectangleGraph {
         }
     }
 }
+
+
+
+
+
