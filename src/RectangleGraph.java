@@ -77,7 +77,7 @@ public class RectangleGraph {
 
             }
         }
-        try (FileWriter fileWriter = new FileWriter(nazovSuboru + ".txt")) {
+        try (FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "/" + nazovSuboru + ".txt")) {
             for (Graph<String, DefaultEdge> g : mnozina) {
                 Graph6Sparse6Exporter<String, DefaultEdge> exporter = new Graph6Sparse6Exporter<>();
                 StringWriter writer = new StringWriter();
