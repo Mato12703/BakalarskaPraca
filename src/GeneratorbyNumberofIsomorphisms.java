@@ -5,7 +5,6 @@ import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.jgrapht.nio.graph6.Graph6Sparse6Exporter;
 import org.jgrapht.util.SupplierUtil;
 import org .jgrapht.alg.isomorphism.VF2GraphIsomorphismInspector;
-import org.jgrapht.io.*;
 
 
 import java.io.FileWriter;
@@ -13,19 +12,16 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
 
-public class RectangleGraph {
+public class GeneratorbyNumberofIsomorphisms {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         System.out.print("Koľko vnútorných vrcholov chcete? (k): ");
         int k = scanner.nextInt();
-
-        System.out.print("Koľko rôznych grafov chcete vygenerovať? (konštanta): ");
+        System.out.print("Koľko rôznych izomorfizmov za sebou chcete tolerovať? (konštanta): ");
         int konstanta = scanner.nextInt();
         System.out.print("Ako chcete nazvať súbor kde uložíme grafy? : ");
         String nazovSuboru = scanner.next();
         generateGraphs(k, konstanta, nazovSuboru);
-
         scanner.close();
     }
     public static void generateGraphs(int k,int konstanta, String nazovSuboru){
@@ -36,7 +32,7 @@ public class RectangleGraph {
 
         int generovania=0;
         boolean prvy =true;
-        while(mnozina.size()<konstanta){
+        while(generovania<konstanta){
             // Vytvorenie grafu
             Graph<String, DefaultEdge> graph = new DefaultUndirectedGraph<>(SupplierUtil.createStringSupplier(), SupplierUtil.createDefaultEdgeSupplier(), false);
             createCornerVertices(graph,x,y);
@@ -320,6 +316,7 @@ public class RectangleGraph {
         }
     }
 }
+
 
 
 
