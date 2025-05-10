@@ -49,6 +49,9 @@ public class GeneratorbyNumberofIsomorphisms {
             for (String vertex : sortedVertices) {
                 generateEdges(graph, vertex, x, y, new HashSet<>(), mapa);
             }
+            if (!allInternalVerticesHaveDegree3(graph, internalVertices)) {
+                continue;
+            }
             connectEdgeVertices(graph,x,y);
             if(prvy){
                 prvy=false;
@@ -314,6 +317,14 @@ public class GeneratorbyNumberofIsomorphisms {
                 }
             }
         }
+    }
+    private static boolean allInternalVerticesHaveDegree3(Graph<String, DefaultEdge> graph, Set<String> internalVertices) {
+        for (String vertex : internalVertices) {
+            if (graph.degreeOf(vertex) < 3) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
